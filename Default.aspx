@@ -4,13 +4,47 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
-    <title>Untitled Page</title>
+    <title>.:: Herramienta Jefes ::.</title>
+    
+    <style type="text/css">
+        body
+        {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+        table
+        {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+        }
+        table th
+        {
+            background-color: #F7F7F7;
+            color: #333;
+            font-weight: normal;
+        }
+        table th, table td
+        {
+            border: 1px solid #ccc;
+        }
+       
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
-        <asp:Label ID="Label1" runat="server" Text="Esto es una prueba ..." Width="178px"></asp:Label>
-        <asp:Label ID="Label2" runat="server" Text="Esta es uns prrueba de la maquina de Jonathan..." Width="517px"></asp:Label></div>
+    <div class="container" align="center">
+        <h2>Login de Usuarios</h2>
+        <br>
+        <strong>Usuario:</strong> <input type="text" id="usuario_txt"><br>
+    </div>
+    <div class="container" align="center">
+        <br>
+        <strong>Contraseña:</strong> <input type="text" id="pass_txt"><br>
+    </div>
+    <div class="container" align="center">
+        <br>
+        <button id="ingresar_btn">Ingresar</button><br>
+    </div>
     </form>
 </body>
 </html>
