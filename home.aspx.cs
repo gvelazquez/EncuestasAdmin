@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using System.Windows.Forms;
 
 public partial class home : System.Web.UI.Page
 {
@@ -20,10 +21,10 @@ public partial class home : System.Web.UI.Page
 
         if (_sesion != null)
         {
-
+            MessageBox.Show("Bienvenido al sistema");
         }   
         else {
-            Response.Redirect(login.aspx);
+            Response.Redirect("login.aspx");
         }
     }
 }

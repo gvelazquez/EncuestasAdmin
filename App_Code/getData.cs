@@ -18,7 +18,7 @@ public class getData
 {
 	public getData()
 	{
-		//
+	   	//
 		// TODO: Add constructor logic here
 		//
 	}
@@ -51,14 +51,14 @@ public class getData
         DataSet ds = new DataSet();
         //eConnect.DataBase Conn;
         eConnect.DataBase Conn = default(eConnect.DataBase);
-
+        
         Conn = new eConnect.DataBase(ConnStr);
         Conn.TimeOut = 420;
         Conn.Open();
 
         try
         {
-            ds = Conn.GetDataSetBySP("sp", user, pass);
+            ds = Conn.GetDataSetBySP("SpValidarUsuario", user, pass);
         }
         catch (Exception ex) { }
         finally

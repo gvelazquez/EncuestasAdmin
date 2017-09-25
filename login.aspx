@@ -29,24 +29,63 @@
         }
        
     </style>
+    
+    <script type="text/javascript">
+    function SomeMethod(){
+        // put your code here 
+        
+        var usuarioValue = document.getElementById('txtUsuario').value;
+        var passwordValue = document.getElementById('TxtPwd').value;
+        
+        if (usuarioValue != '' && passwordValue != ''){
+            return true;
+        }
+        else{
+            alert('Usuario o contraseña incorrecto');
+            return false;
+        }
+        
+    }
+</script>
 </head>
 <body>
     <form id="form1" runat="server">
+    <center>
+    <table cellpadding="2" cellspacing="2" style="border:10" width="50%">
+        <tr align="center" >
+            <td align="center" style="width:50%">
+                <asp:Label ID="LblUsuario" runat="server" Text="Usuario :"></asp:Label></td>
+            <td align="center" style="width:50%">
+                <asp:TextBox ID="txtUsuario" runat="server"></asp:TextBox>
+                 <asp:RequiredFieldValidator ID="validadorUsuario" runat="server" ErrorMessage="*" Visible="False"></asp:RequiredFieldValidator><br>
+            </td>
+        </tr> 
+        <tr align="center" >
+            <td align="center" style="width:50%">
+                <asp:Label ID="LblPwd" runat="server" Text="Password :"></asp:Label></td>
+            <td align="center" style="width:50%">
+                <asp:TextBox ID="TxtPwd" runat="server"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="validadorPass" runat="server" ErrorMessage="*" Visible="False"></asp:RequiredFieldValidator><br>
+            </td>
+        </tr>         
+    </table>
     <div class="container" align="center">
         <h2>Login de Usuarios</h2>
         <br>
-        <strong>Usuario:</strong> <input type="text" id="usuario_txt"><br>
+        <strong>Usuario:</strong>
+
     </div>
     <div class="container" align="center">
         <br>
-        <strong>Contraseña:</strong> <input type="text" id="pass_txt"><br>
+        <strong>Contraseña:</strong>
+        
     </div>
     <div class="container" align="center">
         <br>
-        <asp:Button ID="BttnLogin" runat="server" Text="Login" OnClick="BttnLogin_Click" />
-        <button id="ingresar_btn">Ingresar</button>
+        <asp:Button ID="BttnLogin" runat="server" Text="Login" OnClick="BttnLogin_Click" OnClientClick="return SomeMethod();" />
         <br>
     </div>
+    </center>    
     </form>
 </body>
 </html>
