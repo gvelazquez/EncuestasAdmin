@@ -49,8 +49,11 @@
 </script>
 </head>
 <body>
+<div align="left"><strong>SIEMBI</strong></div>
     <form id="form1" runat="server">
     <center>
+    <h1>Login de Usuarios</h1>
+    <h3>Hoteles MileniuM</h3>
     <table cellpadding="2" cellspacing="2" style="border:10" width="50%">
         <tr align="center" >
             <td align="center" style="width:50%">
@@ -65,21 +68,14 @@
                 <asp:Label ID="LblPwd" runat="server" Text="Password :"></asp:Label></td>
             <td align="center" style="width:50%">
                 <asp:TextBox ID="TxtPwd" runat="server"></asp:TextBox>
-                <asp:RequiredFieldValidator ID="validadorPass" runat="server" ErrorMessage="*" Visible="False"></asp:RequiredFieldValidator><br>
+                <asp:RequiredFieldValidator ID="validatorPass" runat="server" ErrorMessage="*" Visible="False"></asp:RequiredFieldValidator><br>
             </td>
-        </tr>         
+        </tr>  
+        <tr align="center" >
+            <td align="center" colspan="3">
+                <asp:Label ID="lblAlert" runat="server" ForeColor="Red" Text="*" Visible="False"></asp:Label></td>
+        </tr>                 
     </table>
-    <div class="container" align="center">
-        <h2>Login de Usuarios</h2>
-        <br>
-        <strong>Usuario:</strong>
-
-    </div>
-    <div class="container" align="center">
-        <br>
-        <strong>Contraseña:</strong>
-        
-    </div>
     <div class="container" align="center">
         <br>
         <asp:Button ID="BttnLogin" runat="server" Text="Login" OnClick="BttnLogin_Click" OnClientClick="return SomeMethod();" />
