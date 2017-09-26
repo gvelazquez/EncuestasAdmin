@@ -35,7 +35,7 @@ public partial class login : System.Web.UI.Page
         if (ds.Tables[0].Rows.Count > 0) {
 
             string estatus = ds.Tables[0].Rows[0]["estatus"] as string;
-            //if (user == txtUsuario.Text.ToString() && pass == TxtPwd.Text.ToString() && estatus == "1")
+            
             if (estatus == "1")
             {
                 // acceso = true 

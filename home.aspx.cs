@@ -10,10 +10,12 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using System.Windows.Forms;
 
+
 public partial class home : System.Web.UI.Page
 {
 
     public HttpCookie _sesion;
+   
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -29,31 +31,29 @@ public partial class home : System.Web.UI.Page
 
             Response.Write("Usuario: "+nombre+" "+paterno);
 
-            ////Procedimiento almacenado
-            //try
-            //{
-            //    using (System.Data.SqlClient.SqlConnection conn = new System.Data.SqlClient.SqlConnection())
-            //    {
-            //        conn.ConnectionString = "data source=(local);Integrated Security=True;Database=DevClimaLaboral2;";
-            //        using (System.Data.SqlClient.SqlCommand command = conn.CreateCommand())
-            //        {
-            //            conn.Open();
-            //            // Create the sample database
-            //            command.CommandText = "SELECT [id]       ,[Campo1]       ,[Campo2]       ,[Campo3]   FROM [DevClimaLaboral2].[dbo].[LoginUsuarios]";
-            //            command.CommandType = System.Data.CommandType.StoredProcedure;
-            //            this.gvJefes.DataSource = command.ExecuteReader();
-            //            this.gvJefes.DataBind();
-            //            conn.Close();
-            //        }
-            //    }
-
-
-
-            //}
-            //catch
-            //{
-            //    MessageBox.Show("Error al conectar con la BD");
-            //}
+            //Procedimiento almacenado
+            try
+            {
+                using (System.Data.SqlClient.SqlConnection conn = new System.Data.SqlClient.SqlConnection())
+                {
+                    conn.ConnectionString = "Data Source=SIEM;Initial Catalog=DevClimaLaboral2;User ID=sa;Password=siem2000";
+                    using (System.Data.SqlClient.SqlCommand command = conn.CreateCommand())
+                    {
+                        conn.Open();
+                        // Create the sample database
+                        command.CommandText = "SpDatosJefes";
+                        command.CommandType = System.Data.CommandType.StoredProcedure;
+                        this.gvJefes.DataSource = command.ExecuteReader();
+                        this.gvJefes.DataBind();
+                        conn.Close();
+                    }
+                }
+                
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
 
         }   
         else {

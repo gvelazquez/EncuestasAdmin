@@ -57,6 +57,7 @@
         <div align="center">
             <h3>Listado de Jefes</h3>
             <asp:GridView ID="gvJefes" runat="server"></asp:GridView>
+            &nbsp;
         </div>
     </form>
 </body>
