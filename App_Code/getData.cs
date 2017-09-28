@@ -73,4 +73,113 @@ public class getData
 
         return ds;
     }
+
+    /// <summary>
+    /// -----------------
+    /// ---- LOG IN  ----
+    /// ----------------- 
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="pass"></param>
+    /// <returns></returns>
+    public DataSet insertJefe(String idhotel, String idusuario, String iddepto, int idperiodo, int anio)
+    {
+
+        //DataSet ds;
+        DataSet ds = new DataSet();
+        //eConnect.DataBase Conn;
+        eConnect.DataBase Conn = default(eConnect.DataBase);
+
+        Conn = new eConnect.DataBase(ConnStr);
+        Conn.TimeOut = 420;
+        Conn.Open();
+
+        try
+        {
+            ds = Conn.GetDataSetBySP("SpAgregarJefe", idhotel, idusuario, iddepto, idperiodo, anio);
+        }
+        catch (Exception ex) { }
+        finally
+        {
+            if (Conn.Connection.State == ConnectionState.Open)
+            {
+                Conn.Close();
+            }
+            Conn.Dispose();
+            ds.Dispose();
+        }
+
+        return ds;
+    }
+
+    /// <summary>
+    /// -----------------
+    /// ---- LOG IN  ----
+    /// ----------------- 
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="pass"></param>
+    /// <returns></returns>
+    /// 
+    // FUNCION PARA OBTENER LOS HOTELES
+    public DataSet getHoteles()
+    {
+
+        //DataSet ds;
+        DataSet ds = new DataSet();
+        //eConnect.DataBase Conn;
+        eConnect.DataBase Conn = default(eConnect.DataBase);
+
+        Conn = new eConnect.DataBase(ConnStr);
+        Conn.TimeOut = 420;
+        Conn.Open();
+
+        try
+        {
+            ds = Conn.GetDataSetBySP("SpSelHotel");
+        }
+        catch (Exception ex) { }
+        finally
+        {
+            if (Conn.Connection.State == ConnectionState.Open)
+            {
+                Conn.Close();
+            }
+            Conn.Dispose();
+            ds.Dispose();
+        }
+
+        return ds;
+    }
+    //FUNCION PARA OBTENER LOS DEPARTAMENTOS
+    public DataSet getDepartamentos(String idhotel)
+    {
+
+        //DataSet ds;
+        DataSet ds = new DataSet();
+        //eConnect.DataBase Conn;
+        eConnect.DataBase Conn = default(eConnect.DataBase);
+
+        Conn = new eConnect.DataBase(ConnStr);
+        Conn.TimeOut = 420;
+        Conn.Open();
+
+        try
+        {
+            ds = Conn.GetDataSetBySP("SpSelDeptosEncuestas",idhotel);
+        }
+        catch (Exception ex) { }
+        finally
+        {
+            if (Conn.Connection.State == ConnectionState.Open)
+            {
+                Conn.Close();
+            }
+            Conn.Dispose();
+            ds.Dispose();
+        }
+
+        return ds;
+    }
+
 }

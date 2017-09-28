@@ -1,5 +1,8 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeFile="login.aspx.cs" Inherits="login" %>
 
+<%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    Namespace="System.Web.UI" TagPrefix="asp" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
@@ -67,7 +70,7 @@
             <td align="center" style="width:50%">
                 <asp:Label ID="LblPwd" runat="server" Text="Password :"></asp:Label></td>
             <td align="center" style="width:50%">
-                <asp:TextBox ID="TxtPwd" runat="server"></asp:TextBox>
+                <asp:TextBox ID="TxtPwd" runat="server" TextMode="Password"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="validatorPass" runat="server" ErrorMessage="*" Visible="False"></asp:RequiredFieldValidator><br>
             </td>
         </tr>  
@@ -78,8 +81,7 @@
     </table>
     <div class="container" align="center">
         <br>
-        <asp:Button ID="BttnLogin" runat="server" Text="Login" OnClick="BttnLogin_Click" OnClientClick="return SomeMethod();" />
-        <br>
+        <asp:Button ID="BttnLogin" runat="server" Text="Login" OnClick="BttnLogin_Click" OnClientClick="return SomeMethod();" />&nbsp;<br>
     </div>
     </center>    
     </form>

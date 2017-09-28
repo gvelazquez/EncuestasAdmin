@@ -8,6 +8,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
     <title>.::Menu Principal::.</title>
+    
+    
+    <script type="text/javascript">
+    function ValidarCampos(){
+        // put your code here 
+        
+        var hotelValue = document.getElementById('txtHotel').value;
+        var deptoValue = document.getElementById('txtDepartamento').value;
+        var jefeValue = document.getElementById('txtJefe').value;
+        
+        if (hotelValue != '' && deptoValue != '' && jefeValue!=''){
+            return true;
+        }
+        else{
+            alert('Faltan campos por llenar');
+            return false;
+        }
+        
+    }
+</script>
+
 </head>
 <body>
     <form id="form1" runat="server">
@@ -26,28 +47,44 @@
                         <asp:Label ID="lblHotel" runat="server" Text="Hotel:"></asp:Label>
                     </td>
                     <td align="center" style="width:50%">
-                        <asp:TextBox ID="txtHotel" runat="server"></asp:TextBox>
+                        <asp:DropDownList ID="ddlHotel" runat="server" Width="154px" AutoPostBack="True"></asp:DropDownList>
                     </td>
                 </tr>
                 <tr align="center">
                     <td align="center" style="width:191px">
-                        <asp:Label ID="lblDepartamento" runat="server" Text="Departamento:"></asp:Label>
+                        <asp:Label ID="lblUsuario" runat="server" Text="Usuario"></asp:Label>
                     </td>
                     <td align="center" style="width:50%">
-                        <asp:TextBox ID="txtDepartamento" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="txtUsuario" runat="server"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <td align="center" style="width:191px; height: 26px;">
+                        <asp:Label ID="lblDepartamento" runat="server" Text="Departamento:"></asp:Label>
+                    </td>
+                    <td align="center" style="width:50%; height: 26px;">
+                        <asp:DropDownList ID="ddlDepartamento" runat="server" Width="154px"></asp:DropDownList>
                     </td>
                 </tr>
                 <tr align="center">
                     <td align="center" style="width:191px; height: 28px;">
-                        <asp:Label ID="lblJefe" runat="server" Text="Jefe:"></asp:Label>
+                        <asp:Label ID="lblPeriodo" runat="server" Text="Periodo"></asp:Label>
                     </td>
                     <td align="center" style="width:50%; height: 28px;">
-                        <asp:TextBox ID="txtJefe" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="txtPeriodo" runat="server"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <td align="center" style="width:191px">
+                        <asp:Label ID="lblAnio" runat="server" Text="Año"></asp:Label>
+                    </td>
+                    <td align="center" style="width:50%">
+                        <asp:TextBox ID="txtAnio" runat="server"></asp:TextBox>
                     </td>
                 </tr>
                     <tr align="center" >
                         <td align="center" colspan="3">
-                            <asp:Button ID="btnAgregar" runat="server" Text="Agregar" />
+                            <asp:Button ID="btnAgregar" runat="server" Text="Agregar" OnClientClick="return ValidarCampos();" OnClick="btnAgregar_Click"/>
                         </td>
                     </tr>
             </table>
@@ -56,8 +93,54 @@
         </div>
         <div align="center">
             <h3>Listado de Jefes</h3>
-            <asp:GridView ID="gvJefes" runat="server"></asp:GridView>
-            &nbsp;
+            <asp:GridView ID="gvJefes" runat="server" AutoGenerateColumns="False" CellPadding="3" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px">
+                <Columns>
+                    <asp:TemplateField HeaderText="Hotel">
+                        <ItemTemplate>
+                            &nbsp;<asp:Label ID="Label1" runat="server" Text='<%# Bind("hotel") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Nombre">
+                        <ItemTemplate>
+                            <asp:Label ID="Label2" runat="server" Text='<%# Bind("nombre") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Primer Apellido">
+                        <ItemTemplate>
+                            <asp:Label ID="Label3" runat="server" Text='<%# Bind("appaterno") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Segundo Apellido">
+                        <ItemTemplate>
+                            <asp:Label ID="Label4" runat="server" Text='<%# Bind("apmaterno") %>'></asp:Label>
+                        </ItemTemplate>
+                  
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Departamento">
+                        <ItemTemplate>
+                            <asp:Label ID="Label5" runat="server" Text='<%# Bind("departamento") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Division">
+                        <ItemTemplate>
+                            <asp:Label ID="Label6" runat="server" Text='<%# Bind("division") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Direccion">
+                        <ItemTemplate>
+                            <asp:Label ID="Label7" runat="server" Text='<%# Bind("direccion") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+                <RowStyle ForeColor="#000066" />
+                <FooterStyle BackColor="White" ForeColor="#000066" />
+                <PagerStyle BackColor="White" ForeColor="#000066" HorizontalAlign="Left" />
+                <SelectedRowStyle BackColor="#669999" Font-Bold="True" ForeColor="White" />
+                <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />
+            </asp:GridView>
+            &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+            <asp:ScriptManager ID="scriptManager" runat="server">
+            </asp:ScriptManager>
         </div>
     </form>
 </body>
