@@ -17,7 +17,10 @@ public partial class home : System.Web.UI.Page
 {
 
     public HttpCookie _sesion;
-   
+    //public String idHotelSelected; 
+    //public int sdepto;
+
+    static public String idhotel;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -31,25 +34,40 @@ public partial class home : System.Web.UI.Page
 
             String nombre = _sesion["Nombre"];
             String paterno = _sesion["ApPaterno"];
-            
+            int sdepto;
             txtAnio.Text = "2017";
 
             Response.Write("Usuario: "+nombre+" "+paterno);
 
-            //Llenado de combobox de hoteles
-            obtenerHoteles();
-            //Despliegue de la tabla con los usuarios existentes
-            despliegueGrid();
-            //
-            obtenerDepartamentos(ddlHotel.SelectedValue);
-/*
+                if (!Page.IsPostBack)
+                {
+                    //Llenado de combobox de hoteles
+                    obtenerHoteles();
+                    //Despliegue de la tabla con los usuarios existentes
+                    despliegueGrid();
+                }
+                //
+                else
+                {
+                    //if (ddlDepartamento.SelectedValue != "" && idHotelSelected == ddlHotel.SelectedValue.ToString()) 
+                    //    {
+                    //        sdepto = Convert.ToInt32(ddlDepartamento.SelectedValue); 
+                    //    }
+                    //idHotelSelected = ddlHotel.SelectedValue;
+                    
+                    if (idhotel != ddlHotel.SelectedValue){
+                        obtenerDepartamentos(ddlHotel.SelectedValue);
+                        idhotel = ddlHotel.SelectedValue.ToString();
+                    }
 
+                    //ddlDepartamento.SelectedValue = selectedValueDepto.ToString();
 
-            ddlDepartamento.DataSource = ds;
-            ddlDepartamento.DataTextField = "departamento";
-            ddlDepartamento.DataValueField = "departamento";
-            ddlDepartamento.DataBind();
-*/
+                 
+                    //if (sdepto != 0)
+                    //    ddlDepartamento.SelectedValue = sdepto.ToString();
+                    
+                }
+
         }   
         else {
             Response.Redirect("login.aspx");
@@ -128,8 +146,8 @@ public partial class home : System.Web.UI.Page
         if (ds.Tables[0].Rows.Count > 0) {
 
             ddlHotel.DataSource = ds.Tables[0];
-            ddlHotel.DataTextField = "idhotel";
-            ddlHotel.DataValueField = "nombre";
+            ddlHotel.DataTextField = "nombre";
+            ddlHotel.DataValueField = "idhotel";
             ddlHotel.DataBind();
 
         }
@@ -140,6 +158,7 @@ public partial class home : System.Web.UI.Page
 
         DataSet ds;
         getData obj = new getData();
+        //idhotel = ddlHotel.SelectedValue;
 
         obj.SeccionConnStr = "DSNCONN";
         ds = obj.getDepartamentos(idhotel);
@@ -151,6 +170,7 @@ public partial class home : System.Web.UI.Page
             ddlDepartamento.DataValueField = "iddepto";
             ddlDepartamento.DataBind();
         }
+        //int sdepto = Convert.ToInt32(ddlDepartamento.SelectedValue);
     }
 
     public void despliegueGrid()
@@ -179,4 +199,5 @@ public partial class home : System.Web.UI.Page
             throw ex;
         }
     }
+
 }

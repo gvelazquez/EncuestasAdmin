@@ -2,6 +2,8 @@
 
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI" TagPrefix="asp" %>
+    
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -27,6 +29,43 @@
         }
         
     }
+    
+
+    function pageLoad()
+    {
+        $addHandler($get("btnHandler"), "click", ActionEvent);
+         
+        var callback = Function.createCallback(ActionEvent2, "An object");
+         
+        $addHandler($get("btnCallback"), "click", callback);
+         
+        var delegate = Function.createDelegate("An object", ActionEvent3);
+         
+        $addHandler($get("btnDelegate"), "click", delegate);
+         
+        $addHandlers($get("btnHandlers'), {click: ActionEvent4}, "An object");
+    }
+ 
+    function ActionEvent(event)
+    {
+        alert([this.id, event.type]);
+    }
+ 
+    function ActionEvent2(event, context)
+    {
+        alert([this.id, event.type, context]);
+    }
+ 
+    function ActionEvent3(event)
+    {
+        alert([this.id, event.type]);
+    }
+ 
+    function ActionEvent4(event)
+    {
+        alert([this.id, event.type]);
+    }
+ 
 </script>
 
 </head>
@@ -47,7 +86,7 @@
                         <asp:Label ID="lblHotel" runat="server" Text="Hotel:"></asp:Label>
                     </td>
                     <td align="center" style="width:50%">
-                        <asp:DropDownList ID="ddlHotel" runat="server" Width="154px" AutoPostBack="True"></asp:DropDownList>
+                        <asp:DropDownList ID="ddlHotel" runat="server" Width="154px" AutoPostBack="True" ></asp:DropDownList>
                     </td>
                 </tr>
                 <tr align="center">
@@ -63,7 +102,7 @@
                         <asp:Label ID="lblDepartamento" runat="server" Text="Departamento:"></asp:Label>
                     </td>
                     <td align="center" style="width:50%; height: 26px;">
-                        <asp:DropDownList ID="ddlDepartamento" runat="server" Width="154px"></asp:DropDownList>
+                        <asp:DropDownList ID="ddlDepartamento" runat="server" Width="154px" AutoPostBack="True" ></asp:DropDownList>
                     </td>
                 </tr>
                 <tr align="center">
@@ -118,7 +157,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Departamento">
                         <ItemTemplate>
-                            <asp:Label ID="Label5" runat="server" Text='<%# Bind("departamento") %>'></asp:Label>
+                            <asp:Label ID="Label5" runat="server" Text='<%# Bind("departamento") %> '></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Division">
@@ -139,6 +178,7 @@
                 <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />
             </asp:GridView>
             &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+            <input id="btnHandler" type="button" value="Handler" />
             <asp:ScriptManager ID="scriptManager" runat="server">
             </asp:ScriptManager>
         </div>
