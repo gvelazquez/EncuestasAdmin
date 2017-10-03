@@ -15,69 +15,55 @@
     <script type="text/javascript">
     function ValidarCampos(){
         // put your code here 
+        var idhotelValue = document.getElementById('ddlHotel').value;
+        var usuarioValue = document.getElementById('txtUsuario').value;
+        var deptoValue = document.getElementById('ddlDepartamento').value;
+        var periodoValue = document.getElementById('txtPeriodo').value;
+        var anioValue = document.getElementById('txtAnio').value;
         
-        var hotelValue = document.getElementById('txtHotel').value;
-        var deptoValue = document.getElementById('txtDepartamento').value;
-        var jefeValue = document.getElementById('txtJefe').value;
-        
-        if (hotelValue != '' && deptoValue != '' && jefeValue!=''){
-            return true;
-        }
-        else{
-            alert('Faltan campos por llenar');
+        if (idhotelValue == 'AAAAAAA'){
+            alert('Captura un hotel');
             return false;
         }
         
+        if (usuarioValue == ''){
+            alert('Captura Usuario');
+            return false;
+        }
+        
+        if (deptoValue == '0'){
+            alert('Captura Depto');
+            return false;
+        }
+        
+        if (periodoValue == ''){
+            alert('Captura Periodo');
+            return false;
+        }
     }
     
+    function confirmar(){
+        var txt;
+        var r = confirm("Seguro que desea salir?");
+        if (r == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-    function pageLoad()
-    {
-        $addHandler($get("btnHandler"), "click", ActionEvent);
-         
-        var callback = Function.createCallback(ActionEvent2, "An object");
-         
-        $addHandler($get("btnCallback"), "click", callback);
-         
-        var delegate = Function.createDelegate("An object", ActionEvent3);
-         
-        $addHandler($get("btnDelegate"), "click", delegate);
-         
-        $addHandlers($get("btnHandlers'), {click: ActionEvent4}, "An object");
-    }
- 
-    function ActionEvent(event)
-    {
-        alert([this.id, event.type]);
-    }
- 
-    function ActionEvent2(event, context)
-    {
-        alert([this.id, event.type, context]);
-    }
- 
-    function ActionEvent3(event)
-    {
-        alert([this.id, event.type]);
-    }
- 
-    function ActionEvent4(event)
-    {
-        alert([this.id, event.type]);
-    }
- 
 </script>
 
 </head>
 <body>
     <form id="form1" runat="server">
         <div align="right">
-            <asp:Button ID="salirBtn" runat="server" Text="Salir" OnClick="salirBtn_Click"/>
-        </div>
-        <div align="center">
+            <asp:Button ID="salirBtn" runat="server" Text="Salir" OnClientClick="return confirmar();" OnClick="salirBtn_Click"/>
+            <div align="center">
             <asp:Image id="img1" Height="200px" ImageUrl="https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAAdwAAAAJDExMjIwNTY0LTU5OGEtNDA1NS04Y2ZiLWIxMzhhZmNlY2FmZQ.png" runat="server" Width="200px" AlternateText="Imagen no disponible" ImageAlign="TextTop" /><br />
-            <br/>
+            </div>
         </div>
+        
         <div align="center">
             <h3>Agregar Nuevo</h3>
             <table cellpadding="2" cellspacing="2" style="border:10" width="50%">
@@ -86,23 +72,38 @@
                         <asp:Label ID="lblHotel" runat="server" Text="Hotel:"></asp:Label>
                     </td>
                     <td align="center" style="width:50%">
-                        <asp:DropDownList ID="ddlHotel" runat="server" Width="154px" AutoPostBack="True" ></asp:DropDownList>
+                        <asp:DropDownList ID="ddlHotel" runat="server" Width="250px" AutoPostBack="True" ></asp:DropDownList>
                     </td>
                 </tr>
                 <tr align="center">
                     <td align="center" style="width:191px">
-                        <asp:Label ID="lblUsuario" runat="server" Text="Usuario"></asp:Label>
+                        <asp:Label ID="lblUsuario" runat="server" Text="Usuario"></asp:Label>  
                     </td>
                     <td align="center" style="width:50%">
-                        <asp:TextBox ID="txtUsuario" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="txtUsuario" AutoPostBack="false" runat="server" Width="250px"></asp:TextBox>
+                        <cc1:AutoCompleteExtender ID="AutoCompleteExtender_Jefe" 
+                                    runat="server"
+                                    DelimiterCharacters="" 
+                                    Enabled="True" 
+                                    ServiceMethod="GetNombreJefeEncuestas"
+                                    ServicePath="" 
+                                    TargetControlID="txtUsuario" 
+                                    UseContextKey="True" 
+                                    MinimumPrefixLength="3" 
+                                    CompletionInterval="10" 
+                                    EnableCaching="true" 
+                                    CompletionSetCount="20" >
+                        </cc1:AutoCompleteExtender>                        
+                        <asp:ScriptManager ID="scriptManager" runat="server" EnablePageMethods = "true">
+                        </asp:ScriptManager>
                     </td>
                 </tr>
                 <tr align="center">
                     <td align="center" style="width:191px; height: 26px;">
-                        <asp:Label ID="lblDepartamento" runat="server" Text="Departamento:"></asp:Label>
+                        <asp:Label ID="lblDepartamento" runat="server" Text="Departamento/Division/Direccion:"></asp:Label>
                     </td>
                     <td align="center" style="width:50%; height: 26px;">
-                        <asp:DropDownList ID="ddlDepartamento" runat="server" Width="154px" AutoPostBack="True" ></asp:DropDownList>
+                        <asp:DropDownList ID="ddlDepartamento" runat="server" Width="250px" AutoPostBack="True" ></asp:DropDownList>
                     </td>
                 </tr>
                 <tr align="center">
@@ -110,7 +111,7 @@
                         <asp:Label ID="lblPeriodo" runat="server" Text="Periodo"></asp:Label>
                     </td>
                     <td align="center" style="width:50%; height: 28px;">
-                        <asp:TextBox ID="txtPeriodo" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="txtPeriodo" runat="server" Width="250px"></asp:TextBox>
                     </td>
                 </tr>
                 <tr align="center">
@@ -118,12 +119,12 @@
                         <asp:Label ID="lblAnio" runat="server" Text="Año"></asp:Label>
                     </td>
                     <td align="center" style="width:50%">
-                        <asp:TextBox ID="txtAnio" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="txtAnio" runat="server" Width="250px"></asp:TextBox>
                     </td>
                 </tr>
                     <tr align="center" >
                         <td align="center" colspan="3">
-                            <asp:Button ID="btnAgregar" runat="server" Text="Agregar" OnClientClick="return ValidarCampos();" OnClick="btnAgregar_Click"/>
+                            <asp:Button ID="btnAgregar" runat="server" Text="Agregar" OnClientClick="return ValidarCampos();" OnClick="btnAgregar_Click" />
                         </td>
                     </tr>
             </table>
@@ -177,10 +178,6 @@
                 <SelectedRowStyle BackColor="#669999" Font-Bold="True" ForeColor="White" />
                 <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />
             </asp:GridView>
-            &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
-            <input id="btnHandler" type="button" value="Handler" />
-            <asp:ScriptManager ID="scriptManager" runat="server">
-            </asp:ScriptManager>
         </div>
     </form>
 </body>

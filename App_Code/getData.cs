@@ -16,6 +16,7 @@ using System.Data.SqlClient;
 /// </summary>
 public class getData
 {
+
 	public getData()
 	{
 	   	//
@@ -82,7 +83,7 @@ public class getData
     /// <param name="user"></param>
     /// <param name="pass"></param>
     /// <returns></returns>
-    public DataSet insertJefe(String idhotel, String idusuario, String iddepto, int idperiodo, int anio)
+    public DataSet insertJefe(String idhotel, String idusuario, String iddepto, String idperiodo, String anio)
     {
 
         //DataSet ds;
@@ -181,5 +182,9 @@ public class getData
 
         return ds;
     }
+
+    
+
+
 
 }

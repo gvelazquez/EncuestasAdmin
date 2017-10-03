@@ -12,15 +12,23 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 
+using System.Collections.Generic;
+using System.Web.Script.Serialization;
+using System.Web.Script.Services;
+using System.Data;
+using System.Data.Odbc;
+using System.Data.SqlClient;
+using System.IO;
+using System.Text;
+using System.Runtime.Serialization.Json;
+
 
 public partial class home : System.Web.UI.Page
 {
 
     public HttpCookie _sesion;
-    //public String idHotelSelected; 
-    //public int sdepto;
-
     static public String idhotel;
+    public static Dictionary<string, int> diccJefeProspecto;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -34,7 +42,7 @@ public partial class home : System.Web.UI.Page
 
             String nombre = _sesion["Nombre"];
             String paterno = _sesion["ApPaterno"];
-            int sdepto;
+           
             txtAnio.Text = "2017";
 
             Response.Write("Usuario: "+nombre+" "+paterno);
@@ -75,14 +83,18 @@ public partial class home : System.Web.UI.Page
     }
     protected void salirBtn_Click(object sender, EventArgs e)
     {
+          
+        _sesion.Expires = DateTime.Now.AddDays(-1);
+        Response.Cookies.Add(_sesion);
+        Response.Redirect("login.aspx");
 
-        if (MessageBox.Show("¿Seguro que desea salir?", "Alerta", MessageBoxButtons.YesNo,
-            MessageBoxIcon.Question) == DialogResult.Yes)
-        {
-            _sesion.Expires = DateTime.Now.AddDays(-1);
-            Response.Cookies.Add(_sesion);
-            Response.Redirect("login.aspx");
-        }
+        //if (MessageBox.Show("¿Seguro que desea salir?", "Alerta", MessageBoxButtons.YesNo,
+        //    MessageBoxIcon.Question) == DialogResult.Yes)
+        //{
+        //    _sesion.Expires = DateTime.Now.AddDays(-1);
+        //    Response.Cookies.Add(_sesion);
+        //    Response.Redirect("login.aspx");
+        //}
       
     }
     protected void btnAgregar_Click(object sender, EventArgs e)
@@ -91,14 +103,15 @@ public partial class home : System.Web.UI.Page
         String idhotel      = ddlHotel.Text;
         String idusaurio    = txtUsuario.Text;
         String iddepto      = ddlDepartamento.Text;
-        int idperiodo    = int.Parse(txtPeriodo.Text);
-        int anio         = int.Parse(txtAnio.Text);
+        String idperiodo    = txtPeriodo.Text;
+        String anio         = txtAnio.Text;
 
         DataSet ds;
         getData obj = new getData();
 
         obj.SeccionConnStr = "DSNCONN";
         ds = obj.insertJefe(idhotel, idusaurio, iddepto, idperiodo, anio);
+
 
         if (ds.Tables[0].Rows.Count > 0) {
             String insert = ds.Tables[0].Rows[0]["inserta"] as string;
@@ -199,5 +212,37 @@ public partial class home : System.Web.UI.Page
             throw ex;
         }
     }
+
+
+
+    [System.Web.Services.WebMethodAttribute(), System.Web.Script.Services.ScriptMethodAttribute()]
+    public static string[] GetNombreProspectoJefeList(string prefixText, int count, string contextKey)
+    {
+
+        string connectionString = ConfigurationManager.ConnectionStrings("CadenaConexion").ConnectionString;
+        SqlConnection conn = new SqlConnection(connectionString);
+        // Try to use parameterized inline query/sp to protect sql injection
+        //Dim cmd As New SqlCommand((Convert.ToString((Convert.ToString("SELECT TOP " + count + " t1.nombre_completo, t1.idempleado " + " FROM (" & vbTab & "SELECT" & vbTab & "t1.Nombre +' '+ t1.ApPaterno+' '+t1.ApMaterno nombre_completo, t1.idempleado " + "           FROM" & vbTab & "[172.25.107.85].milenium.dbo.usuariosmilenium t1, " + "                   [172.25.107.85].milenium.dbo.hoteles t2 " + "           WHERE" & vbTab & "Undone = 'FALSE' " + "           AND" & vbTab & vbTab & "acronimo = '") & contextKey) + "' " + "           AND" & vbTab & vbTab & "t1.idhotel = t2.idhotel )t1 " + " WHERE" & vbTab & "nombre_completo LIKE '%") & prefixText) + "%'", conn)
+        SqlCommand cmd = new SqlCommand("SELECT TOP " + count + " t1.nombre_completo, t1.idusuario " + " FROM ( SELECT t1.Nombre +' '+ t1.ApPaterno+' '+t1.ApMaterno nombre_completo, t1.idusuario " + "           FROM [172.25.107.85].milenium.dbo.usuariosmilenium t1, " + "                   [172.25.107.85].milenium.dbo.hoteles t2 " + "           WHERE Undone = 'FALSE' " + "           AND CASE t2.acronimo WHEN 'CORP' THEN 'CORPORATIVO' ELSE T2.Acronimo END = '" + contextKey + "' " + "           AND t1.idhotel = t2.idhotel )t1 " + " WHERE nombre_completo LIKE '%" + prefixText + "%'", conn);
+
+        conn.Open();
+        List<string> CompletionSet = new List<string>();
+        diccJefeProspecto = new Dictionary<string, int>();
+        SqlDataReader oReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+        
+while (oReader.Read()) {
+	if (!CompletionSet.Contains(oReader.GetString("nombre_completo").Trim().ToString())) {
+		CompletionSet.Add(oReader("nombre_completo".Trim().ToString()));
+		diccJefeProspecto.Add((oReader("nombre_completo".Trim().ToString())),Convert.ToInt32(oReader("idusuario")));
+	}
+	//CompletionSet.Add(oReader("nombre_completo").ToString())
+	//diccJefeProspecto.Add(oReader("nombre_completo").ToString(), Convert.ToInt32(oReader("idusuario")))
+}
+        //    CompletionSet.Add(oReader["nombre_completo"].ToString());
+
+        conn.Close();
+        return CompletionSet.ToArray();
+    }
+
 
 }
